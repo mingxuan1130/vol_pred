@@ -1,0 +1,31 @@
+# Data files - do not commit
+*.parquet
+*.csv
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+.env
+.venv
+venv/
+ENV/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# IDE
+.vscode/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+results/
+saved_data/
+plots_symbol/
+plots_symbol_model_vs_lag/
