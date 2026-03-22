@@ -23,16 +23,6 @@ MEAN_IMPORTANCE_COLUMNS = (
 PREDICTION_REQUIRED_COLUMNS = ("y_true", "y_pred")
 METRIC_PLOT_COLUMNS = ("block_name", "rmse")
 IMPORTANCE_VALUE_COLUMNS = ("importance_gain", "importance_split")
-__all__ = [
-    "load_block_parquets",
-    "load_importance_blocks",
-    "analyze_feature_importance",
-    "analyze_predictions",
-    "analyze_metrics",
-    "detect_importance_columns",
-    "plot_importance_heatmap",
-    "plot_feature_importance_lines",
-]
 
 
 # =============================
@@ -223,16 +213,6 @@ def compute_prediction_metrics(pred_df: pl.DataFrame) -> dict[str, float]:
     return metrics
 
 
-def get_worst_predictions(pred_df: pl.DataFrame, top_k: int = 20) -> pl.DataFrame:
-    prepared_df = prepare_prediction_analysis_frame(pred_df)
-    select_cols = [
-        column
-        for column in ("ts", "symbol", "y_true", "y_pred", "error", "abs_error", "block_name")
-        if column in prepared_df.columns
-    ]
-    return prepared_df.sort("abs_error", descending=True).select(select_cols).head(top_k)
-
-
 def compute_per_symbol_prediction_metrics(pred_df: pl.DataFrame) -> pl.DataFrame | None:
     """
     按照每个 symbol 计算预测指标
@@ -337,10 +317,6 @@ def _select_top_features(imp_df: pl.DataFrame, value_col: str, top_k: int) -> li
         .get_column("feature")
         .to_list()
     )
-
-# =============================
-# 外部接口
-# =============================
 
 def compute_importance_heatmap_matrix(
     imp_df: pl.DataFrame,
